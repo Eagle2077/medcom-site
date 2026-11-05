@@ -122,6 +122,13 @@ nav .wrap{display:flex;align-items:center;gap:20px;height:64px}
 footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:13px}
 footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 
+/* Exo 2 Cyrillic caps are wider than Latin: tighten tracking so RU reads as compact as EN */
+html[lang=ru] .beat h2,html[lang=ru] .final h2{letter-spacing:-.03em;font-size:clamp(50px,8.4vw,128px)}
+html[lang=ru] .beat p,html[lang=ru] .label{letter-spacing:.12em}
+html[lang=ru] .btn{letter-spacing:.08em}
+html[lang=ru] .ticker div{letter-spacing:.06em}
+html[lang=ru] .reel h3{letter-spacing:-.02em}
+
 @media (prefers-reduced-motion:reduce){*,body::after{animation:none!important;transition:none!important}.beat h2,.beat p,.beat .num{opacity:1;transform:none}}
 @media (max-width:760px){
   .wrap{padding:0 16px}
