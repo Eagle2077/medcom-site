@@ -4,378 +4,282 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MedCom Origin</title>
-<meta name="description" content="Кооперативный тактический шутер о группе полевых медиков в замёрзшем разрушенном городе.">
+<meta name="description" content="Кооперативный тактический шутер о полевых медиках в замёрзшем разрушенном городе.">
+<meta property="og:title" content="MedCom Origin">
+<meta property="og:description" content="Co-op tactical shooter. Field medics. Frozen war-torn city.">
+<meta property="og:image" content="img/hero.jpg">
 <link rel="icon" href="img/splash.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0b0d10; --bg2:#12161b; --line:#232a32; --text:#e7eaee; --muted:#9aa4af;
-  --accent:#ff6a13; --accent2:#ffb27a; --ok:#6fd38a;
-  --head:'Rajdhani',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif;
-}
+:root{--bg:#07080a;--line:#1d2228;--text:#eef1f4;--muted:#8d97a2;--accent:#ff6a13;
+  --head:'Rajdhani',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font:16px/1.6 var(--body);overflow-x:hidden}
-img{display:block;max-width:100%}
-a{color:inherit}
-.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
-h1,h2,h3{font-family:var(--head);font-weight:700;letter-spacing:.04em;line-height:1.1}
-h2{font-size:clamp(30px,4vw,44px);text-transform:uppercase;margin-bottom:12px}
-h2 span{color:var(--accent)}
-.kicker{font:600 13px/1 var(--head);letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:block}
-.lead{color:var(--muted);max-width:640px;font-size:17px}
-section{padding:110px 0}
+body{background:var(--bg);color:var(--text);font:16px/1.5 var(--body);overflow-x:hidden}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+
+/* film grain over everything */
+body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;opacity:.07;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain .6s steps(4) infinite}
+@keyframes grain{25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-2%)}}
 
 /* nav */
-nav{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
-nav.solid{background:rgba(11,13,16,.92);backdrop-filter:blur(8px);border-color:var(--line)}
-nav .wrap{display:flex;align-items:center;gap:28px;height:68px}
-.logo{font:700 24px/1 var(--head);letter-spacing:.12em;text-decoration:none;display:flex;align-items:baseline;gap:8px}
+nav{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s}
+nav.solid{background:rgba(7,8,10,.85);backdrop-filter:blur(8px)}
+nav .wrap{display:flex;align-items:center;gap:20px;height:64px}
+.logo{font:700 22px/1 var(--head);letter-spacing:.14em}
 .logo b{color:var(--accent)}
-.logo small{font-size:13px;color:var(--muted);letter-spacing:.2em}
-.links{display:flex;gap:24px;margin-left:auto;font:600 14px var(--head);letter-spacing:.14em;text-transform:uppercase}
-.links a{text-decoration:none;color:var(--muted);transition:color .2s}
-.links a:hover{color:var(--text)}
-.lang{display:flex;border:1px solid var(--line)}
-.lang button{background:none;border:0;color:var(--muted);font:600 13px var(--head);letter-spacing:.1em;padding:6px 10px;cursor:pointer}
-.lang button.on{background:var(--accent);color:#111}
-.burger{display:none;background:none;border:0;color:var(--text);font-size:26px;cursor:pointer;margin-left:auto}
+.sp{flex:1}
+.lang{display:flex;gap:2px}
+.lang button{background:none;border:0;color:var(--muted);font:700 13px var(--head);letter-spacing:.12em;padding:6px 8px;cursor:pointer}
+.lang button.on{color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;font:700 15px/1 var(--head);letter-spacing:.18em;text-transform:uppercase;border:2px solid var(--accent);background:var(--accent);color:#0b0b0b;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn:hover{background:#ff8638;border-color:#ff8638;box-shadow:0 0 40px rgba(255,106,19,.45)}
+.btn.ghost{background:transparent;color:var(--text);border-color:rgba(255,255,255,.4)}
+.btn.ghost:hover{border-color:#fff;box-shadow:none;background:rgba(255,255,255,.06)}
+.btn.sm{padding:10px 16px;font-size:13px}
 
 /* hero */
-.hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;padding:0 0 110px;overflow:hidden}
-.hero .bg{position:absolute;inset:0;background:url(img/hero.jpg) center/cover;transform:scale(1.06);animation:drift 30s ease-in-out infinite alternate}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,13,16,.35) 0%,rgba(11,13,16,.15) 40%,var(--bg) 100%),linear-gradient(90deg,rgba(11,13,16,.85),transparent 70%)}
-@keyframes drift{to{transform:scale(1.14) translateX(-2%)}}
-.hero .wrap{position:relative;z-index:2;width:100%}
-.title{font:700 clamp(64px,13vw,168px)/.85 var(--head);letter-spacing:.06em;display:flex;align-items:center}
-.title .haz{color:var(--accent);font-size:.82em;margin:0 .02em;display:inline-block;animation:spin 18s linear infinite}
+.hero{position:relative;height:100vh;min-height:620px;overflow:hidden;display:flex;align-items:flex-end}
+.hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .poster{background:url(img/hero.jpg) center/cover;animation:zoom 25s ease-out both}
+@keyframes zoom{from{transform:scale(1.15)}to{transform:scale(1)}}
+.hero video{opacity:0;transition:opacity 1.2s}
+.hero video.live{opacity:1}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:
+  linear-gradient(180deg,rgba(7,8,10,.55) 0,transparent 25%,transparent 55%,var(--bg) 100%),
+  radial-gradient(ellipse at 30% 70%,transparent 30%,rgba(7,8,10,.6) 100%)}
+.hero .wrap{position:relative;z-index:2;width:100%;padding-bottom:9vh}
+.title{font:700 clamp(72px,15vw,220px)/.8 var(--head);letter-spacing:.04em;display:flex;align-items:center;text-shadow:0 10px 60px rgba(0,0,0,.6)}
+.title i{font-style:normal;color:var(--accent);font-size:.8em;display:inline-block;animation:spin 14s linear infinite;filter:drop-shadow(0 0 30px rgba(255,106,19,.6))}
 @keyframes spin{to{transform:rotate(360deg)}}
-.bar{height:6px;width:min(620px,80%);background:var(--accent);margin:18px 0 10px}
-.sub{font:500 clamp(28px,4vw,44px)/1 var(--head);letter-spacing:.1em;color:#fff}
-.hero p{max-width:560px;color:#cfd5db;margin:22px 0 34px;font-size:18px}
-.cta{display:flex;gap:14px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 28px;font:700 16px var(--head);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;border:2px solid var(--accent);transition:.2s}
-.btn.primary{background:var(--accent);color:#111}
-.btn.primary:hover{background:#ff8236;border-color:#ff8236}
-.btn.ghost{color:var(--text);border-color:rgba(255,255,255,.35)}
-.btn.ghost:hover{border-color:var(--text)}
-.badge{display:inline-block;font:600 12px var(--head);letter-spacing:.24em;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent2);padding:5px 10px;margin-bottom:22px}
-.scroll{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:2;color:var(--muted);font:600 11px var(--head);letter-spacing:.3em}
+.origin{display:flex;align-items:center;gap:18px;margin:14px 0 30px;font:600 clamp(22px,3vw,34px)/1 var(--head);letter-spacing:.35em;text-transform:uppercase}
+.origin::before{content:"";height:5px;width:clamp(80px,22vw,360px);background:var(--accent)}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.mute{position:absolute;right:32px;bottom:9vh;z-index:3;width:46px;height:46px;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.35);color:#fff;font-size:18px;cursor:pointer}
 
-/* about */
-.about{display:grid;grid-template-columns:1.05fr 1fr;gap:64px;align-items:center}
-.about img{border:1px solid var(--line)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:34px}
-.stats div{background:var(--bg);padding:18px}
-.stats b{display:block;font:700 34px/1 var(--head);color:var(--accent)}
-.stats span{font-size:13px;color:var(--muted)}
+/* ticker */
+.ticker{border-block:1px solid var(--line);overflow:hidden;background:#0c0e11}
+.ticker div{display:flex;gap:48px;width:max-content;padding:18px 0;animation:tick 40s linear infinite;font:700 22px/1 var(--head);letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+.ticker span::after{content:"✚";color:var(--accent);margin-left:48px;font-size:16px;vertical-align:middle}
+@keyframes tick{to{transform:translateX(-50%)}}
 
-/* features */
-.features{background:var(--bg2);border-block:1px solid var(--line)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:50px}
-.card{background:var(--bg);border:1px solid var(--line);padding:30px 26px;position:relative;transition:border-color .25s,transform .25s}
-.card:hover{border-color:var(--accent);transform:translateY(-3px)}
-.card .n{position:absolute;top:18px;right:20px;font:700 14px var(--head);color:#3a434d;letter-spacing:.1em}
-.card .ic{width:44px;height:44px;display:grid;place-items:center;background:rgba(255,106,19,.12);color:var(--accent);font-size:22px;margin-bottom:18px}
-.card h3{font-size:22px;text-transform:uppercase;margin-bottom:8px}
-.card p{color:var(--muted);font-size:15px}
+/* full-bleed beats */
+.beat{position:relative;height:92vh;min-height:520px;overflow:hidden;display:flex;align-items:center}
+.beat .bg{position:absolute;inset:-12% 0;background-size:cover;background-position:center;will-change:transform}
+.beat::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(7,8,10,.85) 0,rgba(7,8,10,.2) 60%,transparent),linear-gradient(0deg,var(--bg) 0,transparent 25%,transparent 75%,var(--bg) 100%)}
+.beat.r::before{background:linear-gradient(270deg,rgba(7,8,10,.85) 0,rgba(7,8,10,.2) 60%,transparent),linear-gradient(0deg,var(--bg) 0,transparent 25%,transparent 75%,var(--bg) 100%)}
+.beat .wrap{position:relative;z-index:2;width:100%}
+.beat.r .wrap{text-align:right}
+.beat h2{font:700 clamp(54px,9vw,140px)/.86 var(--head);text-transform:uppercase;letter-spacing:.01em}
+.beat h2 em{font-style:normal;color:var(--accent)}
+.beat p{font:600 clamp(16px,1.6vw,20px)/1.3 var(--head);letter-spacing:.24em;text-transform:uppercase;color:#c6ccd2;margin-top:22px}
+.beat .num{font:700 15px var(--head);letter-spacing:.3em;color:var(--accent);margin-bottom:16px;display:block}
+.beat h2,.beat p,.beat .num{opacity:0;transform:translateY(40px);transition:opacity .9s,transform .9s cubic-bezier(.2,.7,.2,1)}
+.beat p{transition-delay:.15s}
+.beat.in h2,.beat.in p,.beat.in .num{opacity:1;transform:none}
 
-/* split rows */
-.row{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:90px}
-.row:first-of-type{margin-top:50px}
-.row.rev .txt{order:2}
-.row img{border:1px solid var(--line);aspect-ratio:16/9;object-fit:cover;width:100%}
-.row ul{list-style:none;margin-top:20px}
-.row li{padding:10px 0 10px 26px;border-bottom:1px solid var(--line);position:relative;color:#c9d0d6}
-.row li::before{content:"";position:absolute;left:0;top:19px;width:10px;height:2px;background:var(--accent)}
-.grades{display:flex;gap:8px;margin-top:22px}
-.grades span{width:46px;height:46px;display:grid;place-items:center;font:700 22px var(--head);border:1px solid var(--line)}
-.grades span:first-child{background:var(--accent);color:#111;border-color:var(--accent)}
+/* trailer */
+.trailer{padding:120px 0 90px;text-align:center}
+.label{font:700 14px var(--head);letter-spacing:.4em;color:var(--accent);text-transform:uppercase;margin-bottom:26px;display:block}
+.player{position:relative;aspect-ratio:16/9;max-width:1200px;margin:0 auto;background:#000 url(img/hero.jpg) center/cover;border:1px solid var(--line);cursor:pointer;overflow:hidden}
+.player video{width:100%;height:100%;object-fit:contain;background:#000}
+.player .play{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.35);transition:background .3s}
+.player:hover .play{background:rgba(0,0,0,.15)}
+.player .play span{width:110px;height:110px;border-radius:50%;background:var(--accent);display:grid;place-items:center;box-shadow:0 0 0 14px rgba(255,106,19,.18),0 0 80px rgba(255,106,19,.5);transition:transform .25s}
+.player:hover .play span{transform:scale(1.08)}
+.player .play span::after{content:"";border-left:30px solid #0b0b0b;border-block:19px solid transparent;margin-left:8px}
 
-/* gallery */
-.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:10px;margin-top:46px}
-.gal button{border:0;padding:0;cursor:zoom-in;overflow:hidden;background:#000}
-.gal img{width:100%;height:100%;object-fit:cover;transition:transform .5s,opacity .3s;opacity:.88}
-.gal button:hover img{transform:scale(1.05);opacity:1}
-.gal .big{grid-column:span 2;grid-row:span 2}
-.gal .wide{grid-column:span 2}
-.lb{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;place-items:center;z-index:100;padding:20px}
+/* gallery: horizontal reel */
+.reel{padding:30px 0 120px}
+.reel .head{display:flex;justify-content:space-between;align-items:end;margin-bottom:24px}
+.reel h3{font:700 clamp(36px,5vw,64px)/1 var(--head);text-transform:uppercase}
+.arrows button{width:48px;height:48px;background:none;border:1px solid var(--line);color:#fff;font-size:22px;cursor:pointer}
+.arrows button:hover{border-color:var(--accent);color:var(--accent)}
+.track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 32px 10px;scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.track button{flex:0 0 min(78vw,820px);aspect-ratio:16/9;border:0;padding:0;background:#111;scroll-snap-align:center;cursor:zoom-in;overflow:hidden}
+.track img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.track button:hover img{transform:scale(1.04)}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;place-items:center;z-index:100;padding:16px}
 .lb.open{display:grid}
-.lb img{max-height:88vh;border:1px solid var(--line)}
-.lb button{position:absolute;background:none;border:0;color:#fff;font-size:40px;cursor:pointer;padding:10px 18px}
-.lb .x{top:10px;right:10px}.lb .pv{left:6px;top:50%}.lb .nx{right:6px;top:50%}
+.lb img{max-height:90vh}
+.lb button{position:absolute;background:none;border:0;color:#fff;font-size:44px;cursor:pointer;padding:8px 18px}
+.lb .x{top:6px;right:6px}.lb .pv{left:4px;top:50%;transform:translateY(-50%)}.lb .nx{right:4px;top:50%;transform:translateY(-50%)}
 
-/* status */
-.status{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:46px}
-.panel{border:1px solid var(--line);padding:32px;background:var(--bg2)}
-.panel h3{font-size:22px;text-transform:uppercase;margin-bottom:16px}
-.panel ul{list-style:none}
-.panel li{padding:8px 0 8px 30px;position:relative;color:#c9d0d6}
-.panel li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:700}
-.panel.warn li::before{content:"!";color:var(--accent)}
-.panel p{color:var(--muted);font-size:15px;margin-top:14px}
-
-/* final cta */
-.final{position:relative;text-align:center;padding:150px 0;overflow:hidden}
-.final::before{content:"";position:absolute;inset:0;background:url(img/night.jpg) center/cover;opacity:.35}
-.final::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,transparent 0,var(--bg) 75%)}
+/* final */
+.final{position:relative;padding:160px 0 140px;text-align:center;overflow:hidden}
+.final .bg{position:absolute;inset:0;background:url(img/night.jpg) center/cover;opacity:.4}
+.final::before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at center,rgba(7,8,10,.2) 0,var(--bg) 70%)}
 .final .wrap{position:relative;z-index:2}
-.final .lead{margin:0 auto 34px}
+.final h2{font:700 clamp(48px,8vw,120px)/.9 var(--head);text-transform:uppercase;margin-bottom:34px}
+.final h2 em{font-style:normal;color:var(--accent)}
+.final .btn{font-size:18px;padding:20px 40px}
+footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 
-footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:13px}
-footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
-.reveal.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
-
-@media (max-width:900px){
-  section{padding:80px 0}
-  .links{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;background:var(--bg);padding:20px 24px;border-bottom:1px solid var(--line)}
-  .links.open{display:flex}
-  .burger{display:block}
-  .lang{margin-left:0}
-  .about,.row,.status{grid-template-columns:1fr;gap:34px}
-  .row.rev .txt{order:0}
-  .grid{grid-template-columns:1fr 1fr}
-  .gal{grid-template-columns:1fr 1fr;grid-auto-rows:150px}
-}
-@media (max-width:560px){
+@media (prefers-reduced-motion:reduce){*,body::after{animation:none!important;transition:none!important}.beat h2,.beat p,.beat .num{opacity:1;transform:none}}
+@media (max-width:760px){
   .wrap{padding:0 16px}
-  .grid{grid-template-columns:1fr}
-  .stats b{font-size:26px}
-  .hero{padding-bottom:80px}
-  .logo small{display:none}
+  nav .btn{display:none}
+  .mute{right:16px;bottom:16px}
+  .beat{height:78vh}
+  .beat.r .wrap{text-align:left}
+  .beat::before,.beat.r::before{background:linear-gradient(0deg,var(--bg) 0,rgba(7,8,10,.55) 45%,rgba(7,8,10,.35) 75%,var(--bg) 100%)}
+  .beat .wrap{align-self:flex-end;padding-bottom:60px}
+  .track{padding:0 16px 10px}
+  .track button{flex-basis:88vw}
+  .arrows{display:none}
+  .player .play span{width:80px;height:80px}
+  .ticker div{font-size:17px}
 }
 </style>
 </head>
 <body>
 
-<nav id="nav">
-  <div class="wrap">
-    <a class="logo" href="#top">MED<b>☣</b>COM <small>ORIGIN</small></a>
-    <div class="links" id="links">
-      <a href="#about" data-i="nav_about">Об игре</a>
-      <a href="#features" data-i="nav_feat">Особенности</a>
-      <a href="#gallery" data-i="nav_gal">Скриншоты</a>
-      <a href="#status" data-i="nav_ea">Ранний доступ</a>
-    </div>
-    <div class="lang"><button data-l="ru" class="on">RU</button><button data-l="en">EN</button></div>
-    <button class="burger" id="burger" aria-label="Menu">☰</button>
-  </div>
-</nav>
+<nav id="nav"><div class="wrap">
+  <a class="logo" href="#top">MED<b>☣</b>COM</a>
+  <div class="sp"></div>
+  <div class="lang"><button data-l="ru" class="on">RU</button><button data-l="en">EN</button></div>
+  <a class="btn sm steam" href="https://store.steampowered.com/app/2570200/MedCom_Origin/" target="_blank" rel="noopener" data-i="wish_s">В вишлист</a>
+</div></nav>
 
 <header class="hero" id="top">
-  <div class="bg"></div>
+  <div class="poster"></div>
+  <video id="bgv" muted loop playsinline preload="none" poster="img/hero.jpg"></video>
   <div class="wrap">
-    <span class="badge" data-i="badge">Ранний доступ · Steam</span>
-    <h1 class="title">MEDC<span class="haz">☣</span>M</h1>
-    <div class="bar"></div>
-    <div class="sub">Origin</div>
-    <p data-i="hero_p">Кооперативный тактический шутер о группе полевых медиков в замёрзшем разрушенном городе. Выполняйте задания с друзьями или ботами-напарниками, вытаскивайте раненых и выводите отряд к эвакуации.</p>
+    <h1 class="title">MEDC<i>☣</i>M</h1>
+    <div class="origin">Origin</div>
     <div class="cta">
-      <a class="btn primary" href="https://store.steampowered.com/app/2570200/MedCom_Origin/" target="_blank" rel="noopener" id="steamBtn" data-i="wish">В список желаемого Steam</a>
-      <a class="btn ghost" href="#gallery" data-i="see">Смотреть скриншоты</a>
+      <a class="btn steam" href="https://store.steampowered.com/app/2570200/MedCom_Origin/" target="_blank" rel="noopener" data-i="wish">Добавить в вишлист Steam</a>
+      <a class="btn ghost" href="#trailer" data-i="watch">▶ Трейлер</a>
     </div>
   </div>
-  <div class="scroll">▼</div>
+  <button class="mute" id="mute" aria-label="Sound">🔇</button>
 </header>
 
-<section id="about">
-  <div class="wrap about">
-    <div class="reveal">
-      <span class="kicker" data-i="about_k">Коцитовск. Зима.</span>
-      <h2 data-i="about_h">Никого <span>не бросаем</span></h2>
-      <p class="lead" data-i="about_p1">Город замёрз и разрушен войной. Ваш отряд — медики-операторы: вы идёте туда, откуда остальные уходят, находите раненых, держите периметр и выводите всех живыми к точке эвакуации.</p>
-      <p class="lead" style="margin-top:14px" data-i="about_p2">Каждая вылазка — это холод, нехватка патронов и враг, который умеет фланговать. Каждая эвакуация — это добыча, снаряжение и новые задания на доске хаба.</p>
-      <div class="stats">
-        <div><b>1–4</b><span data-i="st1">игрока в кооперативе</span></div>
-        <div><b>S–F</b><span data-i="st2">оценка каждой операции</span></div>
-        <div><b>UE 5</b><span data-i="st3">Lumen · Nanite</span></div>
-      </div>
-    </div>
-    <img class="reveal" src="img/street.jpg" alt="Улица Коцитовска" loading="lazy">
+<div class="ticker" aria-hidden="true"><div id="tick"></div></div>
+
+<section class="beat" data-bg="img/street.jpg">
+  <div class="bg"></div>
+  <div class="wrap"><span class="num">01</span><h2 data-i="b1">Никого<br><em>не бросаем</em></h2><p data-i="b1p">Ты — полевой медик</p></div>
+</section>
+
+<section class="beat r" data-bg="img/night2.jpg">
+  <div class="bg"></div>
+  <div class="wrap"><span class="num">02</span><h2 data-i="b2">Ночь.<br><em>Холод.</em><br>Контакт.</h2><p data-i="b2p">Враг обходит с фланга</p></div>
+</section>
+
+<section class="beat" data-bg="img/yard.jpg">
+  <div class="bg"></div>
+  <div class="wrap"><span class="num">03</span><h2 data-i="b3">Вытащи<br><em>всех</em></h2><p data-i="b3p">Реанимация · переноска · эвакуация</p></div>
+</section>
+
+<section class="trailer" id="trailer">
+  <div class="wrap">
+    <span class="label" data-i="tr">Трейлер</span>
+    <div class="player" id="player"><div class="play"><span></span></div></div>
   </div>
 </section>
 
-<section class="features" id="features">
-  <div class="wrap">
-    <span class="kicker" data-i="feat_k">Что внутри</span>
-    <h2 data-i="feat_h">Тактика. <span>Медицина.</span> Выживание.</h2>
-    <div class="grid">
-      <div class="card reveal"><span class="n">01</span><div class="ic">✚</div><h3 data-i="f1h">Ранение и реанимация</h3><p data-i="f1p">Подстреленный боец не умирает сразу: последний рубеж, переноска раненых, реанимация товарищем или самореанимация шприцем.</p></div>
-      <div class="card reveal"><span class="n">02</span><div class="ic">◈</div><h3 data-i="f2h">Отряд ботов</h3><p data-i="f2p">Играйте в одиночку с дружественными ботами: у каждого позывной и голос, им можно отдавать приказы через тактическое меню.</p></div>
-      <div class="card reveal"><span class="n">03</span><div class="ic">⚑</div><h3 data-i="f3h">Умный противник</h3><p data-i="f3p">Враги ищут укрытия, обходят с флангов и кидают гранаты. AI Director управляет темпом боя и не спавнит врагов у вас за спиной.</p></div>
-      <div class="card reveal"><span class="n">04</span><div class="ic">❄</div><h3 data-i="f4h">Холод и снаряжение</h3><p data-i="f4p">Одежда греет, но весит. Термомешок, противогаз, ПНВ, активные наушники — набор решает, вернётесь ли вы с задания.</p></div>
-      <div class="card reveal"><span class="n">05</span><div class="ic">⌖</div><h3 data-i="f5h">Честная стрельба</h3><p data-i="f5p">АК-12 с коллиматором, пороховые газы, эхо выстрела между домами, свободное прицеливание и разрушаемое окружение.</p></div>
-      <div class="card reveal"><span class="n">06</span><div class="ic">⇄</div><h3 data-i="f6h">Кооп через Steam</h3><p data-i="f6p">Создайте сессию или подключитесь к другу. Голосование за высадку, общий склад отряда, миграция хоста без потери прогресса.</p></div>
-    </div>
-
-    <div class="row reveal">
-      <div class="txt">
-        <span class="kicker" data-i="r1k">Цикл операции</span>
-        <h2 data-i="r1h">Хаб → <span>миссия</span> → эвакуация</h2>
-        <ul>
-          <li data-i="r1a">Выберите задание на доске миссий в хабе</li>
-          <li data-i="r1b">Соберите снаряжение: лёгкий, тяжёлый, зимний, медицинский или штурмовой кит</li>
-          <li data-i="r1c">Выполните цели, спасите раненых, удержите точку эвакуации</li>
-          <li data-i="r1d">Вернитесь с добычей — или потеряйте часть вынесенного</li>
-        </ul>
-      </div>
-      <img src="img/yard.jpg" alt="" loading="lazy">
-    </div>
-
-    <div class="row rev reveal">
-      <div class="txt">
-        <span class="kicker" data-i="r2k">Прогрессия</span>
-        <h2 data-i="r2h">Оценка <span>за каждую</span> вылазку</h2>
-        <p class="lead" data-i="r2p">Цели, спасённые раненые, потери и особые условия складываются в оценку от S до F. Она определяет награду отряду и жетоны снабжения, на которые торговцы выдают редкие киты.</p>
-        <div class="grades"><span>S</span><span>A</span><span>B</span><span>C</span><span>D</span><span>F</span></div>
-      </div>
-      <img src="img/night2.jpg" alt="" loading="lazy">
-    </div>
-
-    <div class="row reveal">
-      <div class="txt">
-        <span class="kicker" data-i="r3k">Открытый мир</span>
-        <h2 data-i="r3h">Город, <span>который живёт</span></h2>
-        <p class="lead" data-i="r3p">Кварталы советских панелек, дворы, парковки и проспекты Коцитовска. Сюжетные NPC, бартер, журнал заданий и активности в режиме открытого мира.</p>
-      </div>
-      <img src="img/dusk.jpg" alt="" loading="lazy">
-    </div>
-  </div>
-</section>
-
-<section id="gallery">
-  <div class="wrap">
-    <span class="kicker" data-i="gal_k">Из игры</span>
-    <h2 data-i="gal_h">Скрин<span>шоты</span></h2>
-    <div class="gal" id="gal">
-      <button class="big"><img src="img/hero.jpg" alt="" loading="lazy"></button>
-      <button><img src="img/street2.jpg" alt="" loading="lazy"></button>
-      <button><img src="img/pickup.jpg" alt="" loading="lazy"></button>
-      <button class="wide"><img src="img/night.jpg" alt="" loading="lazy"></button>
-      <button><img src="img/yard.jpg" alt="" loading="lazy"></button>
-      <button><img src="img/street.jpg" alt="" loading="lazy"></button>
-      <button class="wide"><img src="img/dusk.jpg" alt="" loading="lazy"></button>
-    </div>
-  </div>
-</section>
-
-<section id="status" style="padding-top:0">
-  <div class="wrap">
-    <span class="kicker" data-i="ea_k">Ранний доступ</span>
-    <h2 data-i="ea_h">Что уже <span>в игре</span></h2>
-    <div class="status">
-      <div class="panel reveal">
-        <h3 data-i="ea1h">Доступно сейчас</h3>
-        <ul>
-          <li data-i="ea1">Одиночная игра и сетевой кооператив через Steam</li>
-          <li data-i="ea2">Доска заданий с целями, очками и открытием миссий</li>
-          <li data-i="ea3">Открытый мир с задачами и точкой эвакуации</li>
-          <li data-i="ea4">Боты-напарники с приказами, ранение и реанимация</li>
-          <li data-i="ea5">Экран снаряжения, экипировка и экономика</li>
-        </ul>
-      </div>
-      <div class="panel warn reveal">
-        <h3 data-i="ea2h">Учтите</h3>
-        <ul>
-          <li data-i="w1">Возможны ошибки, недоделанные модели и изменения баланса</li>
-          <li data-i="w2">Интерфейс игры пока только на английском</li>
-          <li data-i="w3">Реалистичное насилие, кровь и ранения (18+)</li>
-        </ul>
-        <p data-i="w4">Нужны DirectX и Visual C++ 2022 — Steam установит их автоматически.</p>
-      </div>
-    </div>
-  </div>
+<section class="reel">
+  <div class="wrap head"><h3 data-i="gal">Кадры</h3><div class="arrows"><button id="pv">‹</button> <button id="nx">›</button></div></div>
+  <div class="track" id="track"></div>
 </section>
 
 <section class="final">
+  <div class="bg"></div>
   <div class="wrap">
-    <span class="kicker" data-i="fin_k">Отряд ждёт</span>
-    <h2 data-i="fin_h">Выведите <span>всех</span> живыми</h2>
-    <p class="lead" data-i="fin_p">Добавьте MedCom Origin в список желаемого, чтобы не пропустить обновления раннего доступа.</p>
-    <a class="btn primary" href="https://store.steampowered.com/app/2570200/MedCom_Origin/" target="_blank" rel="noopener" data-i="wish" id="steamBtn2">В список желаемого Steam</a>
+    <h2 data-i="fin">Отряд<br><em>ждёт</em></h2>
+    <a class="btn steam" href="https://store.steampowered.com/app/2570200/MedCom_Origin/" target="_blank" rel="noopener" data-i="wish">Добавить в вишлист Steam</a>
   </div>
 </section>
 
-<footer>
-  <div class="wrap">
-    <span>© 2026 MedCom Origin</span>
-    <span data-i="foot">Сделано на Unreal Engine 5</span>
-  </div>
-</footer>
+<footer><div class="wrap">
+  <span>© 2026 MedCom Origin</span>
+  <span data-i="foot">Ранний доступ · Unreal Engine 5 · 18+</span>
+</div></footer>
 
-<div class="lb" id="lb"><button class="x" aria-label="Close">×</button><button class="pv" aria-label="Prev">‹</button><img alt=""><button class="nx" aria-label="Next">›</button></div>
+<div class="lb" id="lb"><button class="x">×</button><button class="pv">‹</button><img alt=""><button class="nx">›</button></div>
 
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
 <script>
-const STEAM_URL = "https://store.steampowered.com/app/2570200/MedCom_Origin/";
-document.querySelectorAll('#steamBtn,#steamBtn2').forEach(a=>{a.href=STEAM_URL; if(STEAM_URL!=="#"){a.target="_blank";a.rel="noopener"}});
-
-const EN = {
-  nav_about:"About",nav_feat:"Features",nav_gal:"Screenshots",nav_ea:"Early Access",
-  badge:"Early Access · Steam",
-  hero_p:"A co-op tactical shooter about a field medic squad in a frozen, war-torn city. Complete missions with friends or AI squadmates, keep your team alive and get everyone out.",
-  wish:"Wishlist on Steam",see:"See screenshots",
-  about_k:"Kocitovsk. Winter.",about_h:"Leave <span>no one</span> behind",
-  about_p1:"The city is frozen and torn apart by war. Your squad are combat medics: you go where everyone else is leaving, find the wounded, hold the perimeter and bring everyone to extraction alive.",
-  about_p2:"Every run means cold, scarce ammo and an enemy that knows how to flank. Every extraction means loot, gear and new jobs on the hub's mission board.",
-  st1:"players in co-op",st2:"grade for every operation",st3:"Lumen · Nanite",
-  feat_k:"What's inside",feat_h:"Tactics. <span>Medicine.</span> Survival.",
-  f1h:"Downed & revive",f1p:"A hit doesn't mean instant death: last stand, carrying the wounded, revives by a teammate or self-revive with a syringe.",
-  f2h:"AI squad",f2p:"Play solo with friendly bots: each has a callsign and a voice, and takes orders through a tactical command menu.",
-  f3h:"Smart enemies",f3p:"Enemies take cover, flank and throw grenades. The AI Director paces the fight and never spawns enemies behind your back.",
-  f4h:"Cold & gear",f4p:"Clothes keep you warm but weigh you down. Sleeping bag, gas mask, NVGs, active ear protection — your loadout decides whether you make it back.",
-  f5h:"Honest gunplay",f5p:"AK-12 with a red dot, muzzle smoke, gunshot echo between buildings, free aim and destructible surroundings.",
-  f6h:"Steam co-op",f6p:"Host a session or join a friend. Vote to deploy, shared squad stash, host migration without losing progress.",
-  r1k:"Operation loop",r1h:"Hub → <span>mission</span> → extraction",
-  r1a:"Pick a job on the hub's mission board",r1b:"Gear up: Light, Heavy, Winter, Medic or Assault kit",
-  r1c:"Complete objectives, rescue the wounded, hold the extraction point",r1d:"Come back with loot — or lose part of what you carried",
-  r2k:"Progression",r2h:"A grade <span>for every</span> run",
-  r2p:"Objectives, rescued wounded, losses and special conditions add up to a grade from S to F. It sets the squad reward and the supply tokens traders accept for rare kits.",
-  r3k:"Open world",r3h:"A city <span>that lives</span>",
-  r3p:"Blocks of Soviet panel buildings, courtyards, parking lots and avenues of Kocitovsk. Story NPCs, bartering, a task journal and open-world activities.",
-  gal_k:"In-game",gal_h:"Screen<span>shots</span>",
-  ea_k:"Early Access",ea_h:"What's <span>in the game</span>",
-  ea1h:"Available now",ea1:"Solo play and online co-op via Steam",ea2:"Mission board with objectives, scoring and unlocks",
-  ea3:"Open world with tasks and an extraction point",ea4:"AI squadmates with orders, downed and revive",ea5:"Loadout screen, outfits and gear economy",
-  ea2h:"Keep in mind",w1:"Expect bugs, unfinished assets and balance changes",w2:"Game UI is English only for now",
-  w3:"Realistic violence, blood and injuries (18+)",w4:"Requires DirectX and Visual C++ 2022 — Steam installs them automatically.",
-  fin_k:"Your squad is waiting",fin_h:"Get <span>everyone</span> out alive",
-  fin_p:"Wishlist MedCom Origin so you don't miss Early Access updates.",foot:"Made with Unreal Engine 5"
-};
-const RU = {};
-document.querySelectorAll('[data-i]').forEach(el=>{ if(!(el.dataset.i in RU)) RU[el.dataset.i]=el.innerHTML; });
-function setLang(l){
-  const d = l==='en'?EN:RU;
-  document.querySelectorAll('[data-i]').forEach(el=>{ if(d[el.dataset.i]) el.innerHTML=d[el.dataset.i]; });
+const TRAILER = "https://video.fastly.steamstatic.com/store_trailers/2570200/1779654441/914f9b4226f965d88215725177d053692f82512d/1791359820/hls_264_master.m3u8";
+const SS = "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2570200/";
+const SHOTS = [
+  SS+"31635dccf11c4ed644379abbfce031e7815cae5a/ss_31635dccf11c4ed644379abbfce031e7815cae5a.1920x1080.jpg",
+  SS+"b46bd42d0c4cdda3bd8155fecd0adbc20a3727ab/ss_b46bd42d0c4cdda3bd8155fecd0adbc20a3727ab.1920x1080.jpg",
+  SS+"7b8f2d67ecddf1278aa992d6616a412de6785059/ss_7b8f2d67ecddf1278aa992d6616a412de6785059.1920x1080.jpg",
+  SS+"5ed8fb4cbfd2ac412bf099cbbab37b93a78d199c/ss_5ed8fb4cbfd2ac412bf099cbbab37b93a78d199c.1920x1080.jpg",
+  SS+"7481021393320507303cd57ab93694e06830b623/ss_7481021393320507303cd57ab93694e06830b623.1920x1080.jpg",
+  "img/hero.jpg","img/street2.jpg","img/pickup.jpg","img/night.jpg","img/dusk.jpg"
+];
+const TICK = {ru:["Кооп до 4 игроков","Боты-напарники","Ранение и реанимация","Зимний город","Оценка S–F","Ранний доступ"],
+              en:["Co-op up to 4","AI squadmates","Downed & revive","Frozen city","S–F grades","Early Access"]};
+const EN = {wish_s:"Wishlist",wish:"Wishlist on Steam",watch:"▶ Trailer",
+  b1:"Leave<br><em>no one</em><br>behind",b1p:"You are the field medic",
+  b2:"Night.<br><em>Cold.</em><br>Contact.",b2p:"They're flanking",
+  b3:"Get<br><em>everyone</em><br>out",b3p:"Revive · carry · extract",
+  tr:"Trailer",gal:"Footage",fin:"Your squad<br><em>is waiting</em>",foot:"Early Access · Unreal Engine 5 · 18+"};
+const RU = {}; document.querySelectorAll('[data-i]').forEach(e=>RU[e.dataset.i]=e.innerHTML);
+let lang='ru';
+function setLang(l){lang=l;const d=l==='en'?EN:RU;
+  document.querySelectorAll('[data-i]').forEach(e=>{if(d[e.dataset.i])e.innerHTML=d[e.dataset.i]});
   document.documentElement.lang=l;
   document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
-  try{localStorage.setItem('medcom_lang',l)}catch(e){}
-}
+  const t=TICK[l].map(s=>`<span>${s}</span>`).join(''); document.getElementById('tick').innerHTML=t+t;
+  try{localStorage.setItem('medcom_lang',l)}catch(e){}}
 document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
-try{ const s=localStorage.getItem('medcom_lang'); if(s) setLang(s); else if(!navigator.language.startsWith('ru')) setLang('en'); }catch(e){}
+let saved=null; try{saved=localStorage.getItem('medcom_lang')}catch(e){}
+setLang(saved||(navigator.language.startsWith('ru')?'ru':'en'));
+
+function attach(video, autoLevelCap){
+  if(video.canPlayType('application/vnd.apple.mpegurl')){video.src=TRAILER;return}
+  if(window.Hls&&Hls.isSupported()){const h=new Hls({capLevelToPlayerSize:true,startLevel:autoLevelCap});h.loadSource(TRAILER);h.attachMedia(video);return h}
+}
+
+// hero: muted looping trailer behind the logo
+const bgv=document.getElementById('bgv'), reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(!reduce){attach(bgv,1);bgv.play().catch(()=>{});bgv.addEventListener('playing',()=>bgv.classList.add('live'),{once:true})}
+const mute=document.getElementById('mute');
+mute.onclick=()=>{bgv.muted=!bgv.muted;mute.textContent=bgv.muted?'🔇':'🔊';if(!bgv.muted)bgv.play()};
+
+// trailer with sound on click
+const player=document.getElementById('player');
+player.addEventListener('click',()=>{if(player.querySelector('video'))return;
+  bgv.pause();const v=document.createElement('video');v.controls=true;v.playsInline=true;player.innerHTML='';player.appendChild(v);attach(v,-1);v.play().catch(()=>{})});
 
 // nav
-const nav=document.getElementById('nav'), links=document.getElementById('links');
-addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>40),{passive:true});
-document.getElementById('burger').onclick=()=>links.classList.toggle('open');
-links.querySelectorAll('a').forEach(a=>a.onclick=()=>links.classList.remove('open'));
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>60),{passive:true});
 
-// reveal
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// beats: background + parallax + reveal
+const beats=[...document.querySelectorAll('.beat')];
+beats.forEach(b=>b.querySelector('.bg').style.backgroundImage=`url(${b.dataset.bg})`);
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.3});
+beats.forEach(b=>io.observe(b));
+if(!reduce){let raf=0;addEventListener('scroll',()=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=0;
+  beats.forEach(b=>{const r=b.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+    b.querySelector('.bg').style.transform=`translateY(${(r.top+r.height/2-innerHeight/2)*-.12}px)`})})},{passive:true})}
 
-// lightbox
-const imgs=[...document.querySelectorAll('#gal img')].map(i=>i.src), lb=document.getElementById('lb'), lbi=lb.querySelector('img');
-let cur=0; const show=i=>{cur=(i+imgs.length)%imgs.length;lbi.src=imgs[cur];lb.classList.add('open')};
-document.querySelectorAll('#gal button').forEach((b,i)=>b.onclick=()=>show(i));
+// reel + lightbox
+const track=document.getElementById('track');
+track.innerHTML=SHOTS.map(s=>`<button><img src="${s}" alt="" loading="lazy"></button>`).join('');
+document.getElementById('pv').onclick=()=>track.scrollBy({left:-track.clientWidth*.7,behavior:'smooth'});
+document.getElementById('nx').onclick=()=>track.scrollBy({left:track.clientWidth*.7,behavior:'smooth'});
+const lb=document.getElementById('lb'),lbi=lb.querySelector('img');let cur=0;
+const show=i=>{cur=(i+SHOTS.length)%SHOTS.length;lbi.src=SHOTS[cur];lb.classList.add('open')};
+[...track.children].forEach((b,i)=>b.onclick=()=>show(i));
 lb.querySelector('.x').onclick=()=>lb.classList.remove('open');
 lb.querySelector('.pv').onclick=e=>{e.stopPropagation();show(cur-1)};
 lb.querySelector('.nx').onclick=e=>{e.stopPropagation();show(cur+1)};
 lb.onclick=e=>{if(e.target===lb)lb.classList.remove('open')};
-addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')lb.classList.remove('open');if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1)});
+addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')lb.classList.remove('open');if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1)});
 </script>
 </body>
 </html>
