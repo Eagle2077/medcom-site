@@ -175,7 +175,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     <div class="sub">Origin</div>
     <p data-i="hero_p">Кооперативный тактический шутер о группе полевых медиков в замёрзшем разрушенном городе. Выполняйте задания с друзьями или ботами-напарниками, вытаскивайте раненых и выводите отряд к эвакуации.</p>
     <div class="cta">
-      <a class="btn primary" href="#" id="steamBtn" data-i="wish">В список желаемого Steam</a>
+      <a class="btn primary" href="https://store.steampowered.com/app/2570200/MedCom_Origin/" target="_blank" rel="noopener" id="steamBtn" data-i="wish">В список желаемого Steam</a>
       <a class="btn ghost" href="#gallery" data-i="see">Смотреть скриншоты</a>
     </div>
   </div>
@@ -296,7 +296,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     <span class="kicker" data-i="fin_k">Отряд ждёт</span>
     <h2 data-i="fin_h">Выведите <span>всех</span> живыми</h2>
     <p class="lead" data-i="fin_p">Добавьте MedCom Origin в список желаемого, чтобы не пропустить обновления раннего доступа.</p>
-    <a class="btn primary" href="#" data-i="wish" id="steamBtn2">В список желаемого Steam</a>
+    <a class="btn primary" href="https://store.steampowered.com/app/2570200/MedCom_Origin/" target="_blank" rel="noopener" data-i="wish" id="steamBtn2">В список желаемого Steam</a>
   </div>
 </section>
 
@@ -310,8 +310,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 <div class="lb" id="lb"><button class="x" aria-label="Close">×</button><button class="pv" aria-label="Prev">‹</button><img alt=""><button class="nx" aria-label="Next">›</button></div>
 
 <script>
-// Укажите ссылку на страницу игры в Steam, когда она будет опубликована.
-const STEAM_URL = "#";
+const STEAM_URL = "https://store.steampowered.com/app/2570200/MedCom_Origin/";
 document.querySelectorAll('#steamBtn,#steamBtn2').forEach(a=>{a.href=STEAM_URL; if(STEAM_URL!=="#"){a.target="_blank";a.rel="noopener"}});
 
 const EN = {
